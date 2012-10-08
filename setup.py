@@ -3,7 +3,7 @@
 from os.path import join, dirname
 from setuptools import setup
 
-version = (0, 0, 1, 'dev')
+version = '0.0.1'
 
 LONG_DESCRIPTION = """
 Rango is a new taste of Django. In general it provides shorter
