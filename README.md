@@ -93,7 +93,7 @@ Full method signature:
     settings.has_setting('CUSTOM_SETTINGS')
     settings.get_setting('CUSTOM_SETTINGS', default='Some value')
 
-    from rango.utils import safe_filename
+    from rango.utils import safe_upload_to
     from rango import models
     class MyFile(models.Model):
         file = models.FileField(upload_to=safe_upload_to('files'))
