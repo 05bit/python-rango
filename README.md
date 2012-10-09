@@ -40,7 +40,7 @@ Django ``reverse`` works so:
 
 ### Base model class
 
-It has shorctuts for ``all``, ``get``, ``filter`` and ``exclude``
+It has shorcuts for ``all``, ``get``, ``filter`` and ``exclude``
 methods and some extra magic:
 
     from rango import models
