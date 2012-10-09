@@ -1,9 +1,9 @@
+import functools
+from django.db.models.query import QuerySet
 from django.db.models import *
-# from django.db.models import Model as DjangoModel
-from django.core.exceptions import ObjectDoesNotExist
 
 
-class RangoQuerySet(query.QuerySet):
+class RangoQuerySet(QuerySet):
 
     def __getattr__(self, name):
         """
@@ -12,7 +12,8 @@ class RangoQuerySet(query.QuerySet):
         That's convinient to define domain specific query
         methods in models and chain them in queries.
         """
-        return getattr(self.model, name)
+        method = getattr(self.model, name)
+        return functools.partial(method, _queryset=self)
 
 
 class RangoManager(Manager):
@@ -49,6 +50,18 @@ class RangoModel(Model):
     class Meta:
         abstract = True
 
+    @classmethod
+    def all(cls):
+        return cls.objects.all()
+
+    @classmethod
+    def get(cls, _queryset=None, **kwargs):
+        _queryset = (_queryset is None) and cls.objects or _queryset
+        try:
+            return _queryset.get(**kwargs)
+        except cls.DoesNotExist:
+            pass
+
     def update(self, **kwargs):
         """
         Updates instance fields. Note that it skips
@@ -57,18 +70,30 @@ class RangoModel(Model):
         self.__class__.objects.filter(pk=self.pk).update(**kwargs)
         return self.__class__.objects.get(pk=self.pk)
 
-    @classmethod
-    def all(cls, _queryset=None):
-        if _queryset is None:
-            return cls.objects.all()
-        else:
-            return _queryset.all()
+    def _query_method(name):
+        def method(cls, _queryset=None, **kwargs):
+            queryset = (_queryset is None) and cls.objects or _queryset
+            return getattr(queryset, name)(**kwargs)
+        return method
 
-    @classmethod
-    def filter(cls, _queryset=None, **kwargs):
-        if _queryset is None:
-            _queryset = cls.objects.all()
-        return _queryset.filter(**kwargs)
+    exclude = classmethod(_query_method('exclude'))
+    filter = classmethod(_query_method('filter'))
+    none = classmethod(_query_method('none'))
+
+    # annotate = classmethod(_query_method('annotate'))
+    # order_by = classmethod(_query_method('order_by'))
+    # reverse = classmethod(_query_method('reverse'))
+    # distinct = classmethod(_query_method('distinct'))
+    # values = classmethod(_query_method('values'))
+    # values_list = classmethod(_query_method('values_list'))
+    # dates = classmethod(_query_method('dates'))
+    # select_related = classmethod(_query_method('select_related'))
+    # prefetch_related = classmethod(_query_method('prefetch_related'))
+    # extra = classmethod(_query_method('extra'))
+    # defer = classmethod(_query_method('defer'))
+    # only = classmethod(_query_method('only'))
+    # using = classmethod(_query_method('using'))
+    # select_for_update = classmethod(_query_method('select_for_update'))
 
 
 # def get_object_or_none(klass, *args, **kwargs):
