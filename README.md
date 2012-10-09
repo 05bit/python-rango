@@ -1,7 +1,7 @@
 Rango
 =====
 
-Rango is a bit spice for Django.
+Rango is a bit of spice for Django.
 
 Why?
 ----
