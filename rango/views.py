@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
+from django.http import Http404
 from django.shortcuts import render_to_response as render_to_response_
 from django.shortcuts import render as render_
 from django.shortcuts import redirect as redirect_
@@ -16,6 +17,10 @@ redirect = redirect_
 render = render_
 get_object_or_404 = get_object_or_404_
 login_required = login_required_
+
+
+def raise_404(message=None):
+	raise Http404(message)
 
 
 def render_to(template=None, mimetype="text/html"):
