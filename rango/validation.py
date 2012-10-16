@@ -1,3 +1,4 @@
+import os
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError as ValidationError_
 from django.core.validators import *
@@ -24,6 +25,7 @@ class FileTypeValidator(object):
         """
         Validates that the file has allowed extension.
         """
-        if not unicode(value).lower() in self.extensions:
+        name, ext = os.path.splitext(unicode(value))
+        if not ext.lower() in self.extensions:
             message = self.message % ' '.join(self.extensions)
             raise ValidationError(message, code=self.code)
