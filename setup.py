@@ -27,7 +27,7 @@ setup(
     license='MIT',
     keywords='django, utils, sugar',
     url='https://github.com/05bit/rango',
-    packages=['rango',],
+    packages=['rango', 'rango.db', 'rango.auth'],
     long_description=long_description(),
     install_requires=['Django>=1.4', 'unidecode'],
     classifiers=['Development Status :: 2 - Pre-Alpha',

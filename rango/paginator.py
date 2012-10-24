@@ -55,6 +55,7 @@ class IDPaginator(object):
             }
             self.pages.append(page)
             if is_current:
+                page['id_list'] = chunk
                 self.current_page = page
                 self.prev_page = n and self.pages[n - 1] or None
                 next_index = n + 1
