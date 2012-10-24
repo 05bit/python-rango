@@ -43,8 +43,9 @@ class IDPaginator(object):
         self.next_page, next_index = None, None
         for n, chunk in enumerate(self._chunks):
             if id_value:
-                is_current = id_value >= min(chunk[0], chunk[-1]) and \
-                             id_value <= max(chunk[0], chunk[-1])
+                is_current = bool(id_value in chunk)
+                # is_current = id_value >= min(chunk[0], chunk[-1]) and \
+                #              id_value <= max(chunk[0], chunk[-1])
             else:
                 is_current = n == 0
             page = {
