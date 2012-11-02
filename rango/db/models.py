@@ -1,6 +1,7 @@
 import functools
 from django.db.models.query import QuerySet
 from django.db.models import *
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class RangoQuerySet(QuerySet):
@@ -14,6 +15,12 @@ class RangoQuerySet(QuerySet):
         """
         method = getattr(self.model, name)
         return functools.partial(method, _queryset=self)
+
+    def get(self, *args, **kwargs):
+        try:
+            return super(RangoQuerySet, self).get(*args, **kwargs)
+        except ObjectDoesNotExist:
+            pass
 
 
 class RangoManager(Manager):
