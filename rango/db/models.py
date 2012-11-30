@@ -16,6 +16,9 @@ class RangoQuerySet(QuerySet):
         method = getattr(self.model, name)
         return functools.partial(method, _queryset=self)
 
+    def __unicode__(self):
+        return u"<%s: %s>" % (self.__class__.__name__, self.model)
+
     def get(self, *args, **kwargs):
         try:
             return super(RangoQuerySet, self).get(*args, **kwargs)
@@ -68,6 +71,13 @@ class RangoModel(Model):
             return _queryset.get(**kwargs)
         except cls.DoesNotExist:
             pass
+
+    @classmethod
+    def create(cls, **kwargs):
+        """
+        Creates new instance and saves it to database.
+        """
+        return cls.objects.create(**kwargs)
 
     def update(self, **kwargs):
         """

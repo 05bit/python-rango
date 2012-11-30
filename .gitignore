@@ -1,6 +1,7 @@
 .DS_Store*
 Icon?
 Thumbs.db
+rango.egg-info
 
 *.pyc
 *.pyo
