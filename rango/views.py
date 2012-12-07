@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required as login_required_
 from rango.template import RequestContext
 from rango.response import JsonResponse
 
-__all__ = ['render_to', 'ajax_request', 'render_to_response',
+__all__ = ['render_to', 'render_json', 'render_to_response',
 		   'render', 'redirect', 'get_object_or_404', 'login_required']
 
 render_to_response = render_to_response_
@@ -84,13 +84,13 @@ def render_to(template=None, mimetype="text/html"):
 	return renderer
 
 
-def ajax_request(func):
+def render_json(func):
 	"""
 	If view returned serializable dict, returns JsonResponse with this dict as content.
 
 	example:
 		
-		@ajax_request
+		@render_json
 		def my_view(request):
 			news = News.objects.all()
 			news_titles = [entry.title for entry in news]
