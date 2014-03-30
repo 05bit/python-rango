@@ -26,7 +26,7 @@ setup(
     description='Rango is a spicey API to Django with some extras.',
     license='MIT',
     keywords='django, utils, sugar',
-    url='https://github.com/05bit/rango',
+    url='https://github.com/05bit/python-rango',
     packages=['rango', 'rango.db', 'rango.auth'],
     long_description=long_description(),
     install_requires=['Django>=1.4', 'unidecode'],
